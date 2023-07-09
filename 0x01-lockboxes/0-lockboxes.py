@@ -5,7 +5,7 @@ Given n number of locked boxes, each box numbered sequentially
 from 0 to n - 1, and each box may contain keys to the other boxes.
 """
 
-def canUnlockedAll(boxes):
+def canUnlockAll(boxes):
     if not boxes or type(boxes) is not list:
         return False
     
