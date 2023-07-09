@@ -1,22 +1,19 @@
 #!/usr/bin/python3
-"""
-Method that determines if all the boxes can be opened.
-Given n number of locked boxes, each box numbered sequentially
-from 0 to n - 1, and each box may contain keys to the other boxes.
-"""
+"""Method that determines if all the boxes can be opened."""
+
 
 def canUnlockAll(boxes):
-    if not boxes or type(boxes) is not list:
-        return False
-    
-    unlocked = [0] 
-    
-    for x in unlocked:
-        for y in boxes[x]:
-            if y not in unlocked and y < len(boxes):
-                unlocked.append(y)
-    
-    # Check if all boxes are unlocked
-    if len(unlocked) == len(boxes):
+    """Method that determines if all the boxes can be opened.
+    Args:
+        boxes: list of lists
+    Returns:
+        True if all boxes can be opened, else return False
+    """
+    keys = [0]
+    for key in keys:
+        for box in boxes[key]:
+            if box not in keys and box < len(boxes):
+                keys.append(box)
+    if len(keys) == len(boxes):
         return True
     return False
