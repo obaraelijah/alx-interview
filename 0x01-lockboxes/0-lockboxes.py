@@ -1,25 +1,27 @@
 #!/usr/bin/python3
-"""Method that determines if all the boxes can be opened."""
+
+"""This is an interview Question called lockboxes that
+checks to see if all boxes can be unlocked.
+
+You have n number of locked boxes in front of you.
+Each box is numbered sequentially from 0 to n - 1 and
+each box may contain keys to the other boxes.
+"""
 
 
 def canUnlockAll(boxes):
-    """Method that determines if all the boxes can be opened.
-    Args:
-        boxes: list of lists
-    Returns:
-        True if all boxes can be opened, else return False
-    """
-    if not boxes or type(boxes) is not list:
-        return False
-    
-    unlocked = [0] 
-    
-    for x in unlocked:
-        for y in boxes[x]:
-            if y not in unlocked and y < len(boxes):
-                unlocked.append(y)
-    
-    # Check if all boxes are unlocked
-    if len(unlocked) == len(boxes):
-        return True
-    return False
+    stack = [0]
+    visited = set(stack)
+
+    while stack:
+        idx = stack.pop()
+
+        if idx >= len(boxes):
+            visited.remove(idx)
+            continue
+        for j in boxes[idx]:
+            if j not in visited:
+                stack.append(j)
+                visited.add(j)
+
+    return len(visited) == len(boxes)
