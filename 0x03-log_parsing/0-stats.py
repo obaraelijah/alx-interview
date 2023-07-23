@@ -9,7 +9,7 @@ def print_status_codes(status_codes):
         <status>: <count>
     """
     for key, val in sorted(status_codes.items()):
-        print(f"{key}: {val}")
+        print("{}: {}".format(key, val))
 
 
 code = {}
@@ -34,7 +34,7 @@ try:
 
         if vals_total == 10:
             vals_total = 0
-            print(f"File size: {total}")
+            print("File size: {}".format(total))
             print_status_codes(code)
 
 except Exception:
