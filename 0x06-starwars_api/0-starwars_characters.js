@@ -1,25 +1,42 @@
 #!/usr/bin/node
+
 const request = require('request');
-const URL = 'https://swapi-api.hbtn.io/api';
 
-if (process.argv.length > 2) {
-  request(`${URL}/films/${process.argv[2]}/`, (err, _, body) => {
-    if (err) {
-      console.log(err);
-    }
-    const charactersURL = JSON.parse(body).characters;
-    const charactersName = charactersURL.map(
-      url => new Promise((resolve, reject) => {
-        request(url, (promiseErr, __, charactersReqBody) => {
-          if (promiseErr) {
-            reject(promiseErr);
-          }
-          resolve(JSON.parse(charactersReqBody).name);
-        });
-      }));
+const id = process.argv[2];
+const url = `https://swapi-api.alx-tools.com/api/films/${id}/`;
 
-    Promise.all(charactersName)
-      .then(names => console.log(names.join('\n')))
-      .catch(allErr => console.log(allErr));
+request(url, (error, response, body) => {
+  if (error) {
+    console.error(error);
+  }
+  if (response.statusCode === 200) {
+    (async function () {
+      const characters = JSON.parse(body).characters;
+
+      try {
+        const responses = await Promise.all(
+          characters.map((character) => requestCharacter(character))
+        );
+
+        for (const response of responses) {
+          console.log(response.name);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }
+});
+
+function requestCharacter (url) {
+  return new Promise((resolve, reject) => {
+    request(url, (error, response, body) => {
+      if (error) {
+        reject(error);
+      }
+      if (response.statusCode === 200) {
+        resolve(JSON.parse(body));
+      }
+    });
   });
 }
